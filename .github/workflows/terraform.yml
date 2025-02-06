@@ -23,7 +23,12 @@ jobs:
 
       - name: Set Terraform Environment Variables
         run: |
-          echo "${{ secrets.AZURE_AD_SECRETS }}" | jq -r 'to_entries | .[] | "ARM_\(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+          echo "${{ secrets.AZURE_AD_SECRETS }}" > azure_creds.json
+          echo "ARM_CLIENT_ID=$(jq -r .client_id azure_creds.json)" >> $GITHUB_ENV
+          echo "ARM_CLIENT_SECRET=$(jq -r .client_secret azure_creds.json)" >> $GITHUB_ENV
+          echo "ARM_SUBSCRIPTION_ID=$(jq -r .subscription_id azure_creds.json)" >> $GITHUB_ENV
+          echo "ARM_TENANT_ID=$(jq -r .tenant_id azure_creds.json)" >> $GITHUB_ENV
+
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -72,7 +77,11 @@ jobs:
 
       - name: Set Terraform Environment Variables
         run: |
-          echo "${{ secrets.AZURE_AD_SECRETS }}" | jq -r 'to_entries | .[] | "ARM_\(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+         echo "${{ secrets.AZURE_AD_SECRETS }}" > azure_creds.json
+         echo "ARM_CLIENT_ID=$(jq -r .client_id azure_creds.json)" >> $GITHUB_ENV
+         echo "ARM_CLIENT_SECRET=$(jq -r .client_secret azure_creds.json)" >> $GITHUB_ENV
+         echo "ARM_SUBSCRIPTION_ID=$(jq -r .subscription_id azure_creds.json)" >> $GITHUB_ENV
+         echo "ARM_TENANT_ID=$(jq -r .tenant_id azure_creds.json)" >> $GITHUB_ENV
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -126,7 +135,11 @@ jobs:
 
       - name: Set Terraform Environment Variables
         run: |
-          echo "${{ secrets.AZURE_AD_SECRETS }}" | jq -r 'to_entries | .[] | "ARM_\(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+          echo "${{ secrets.AZURE_AD_SECRETS }}" > azure_creds.json
+          echo "ARM_CLIENT_ID=$(jq -r .client_id azure_creds.json)" >> $GITHUB_ENV
+          echo "ARM_CLIENT_SECRET=$(jq -r .client_secret azure_creds.json)" >> $GITHUB_ENV
+          echo "ARM_SUBSCRIPTION_ID=$(jq -r .subscription_id azure_creds.json)" >> $GITHUB_ENV
+          echo "ARM_TENANT_ID=$(jq -r .tenant_id azure_creds.json)" >> $GITHUB_ENV
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
