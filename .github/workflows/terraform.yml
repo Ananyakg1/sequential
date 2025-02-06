@@ -1,0 +1,169 @@
+# This is a basic workflow to help you get started with Actions
+
+name: 'Terraform Deployment'
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-dev:
+    name: 'Terraform Dev'
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Terraform Environment Variables
+        run: |
+          echo "${{ secrets.AZURE_AD_SECRETS }}" | jq -r 'to_entries | .[] | "ARM_\(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Run TFLint
+        uses: terraform-linters/setup-tflint@v3
+      - run: |
+          cd dev
+          tflint --init
+          tflint --recursive
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: dev
+
+      - name: Terraform Init
+        run: |
+          cd dev
+          terraform init
+
+      - name: Terraform Validate
+        run: |
+          cd dev
+          terraform validate
+
+      - name: Terraform Plan
+        run: |
+          cd dev
+          terraform plan -var-file="terraform.tfvars" -input=false
+
+      - name: Terraform Apply
+        run: |
+          cd dev
+          terraform apply -var-file="terraform.tfvars" -auto-approve -input=false
+
+  terraform-qa:
+    name: 'Terraform QA'
+    runs-on: ubuntu-latest
+    environment: qa
+    needs: terraform-dev  # Runs after dev completes
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Terraform Environment Variables
+        run: |
+          echo "${{ secrets.AZURE_AD_SECRETS }}" | jq -r 'to_entries | .[] | "ARM_\(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Run TFLint
+        uses: terraform-linters/setup-tflint@v3
+      - run: |
+          cd qa
+          tflint --init
+          tflint --recursive
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: qa
+
+      - name: Terraform Init
+        run: |
+          cd qa
+          terraform init
+
+      - name: Terraform Validate
+        run: |
+          cd qa
+          terraform validate
+
+      - name: Terraform Plan
+        run: |
+          cd qa
+          terraform plan -var-file="terraform.tfvars" -input=false
+
+      - name: Manual Approval for QA
+        uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Terraform Apply
+        run: |
+          cd qa
+          terraform apply -var-file="terraform.tfvars" -auto-approve -input=false
+
+  terraform-prod:
+    name: 'Terraform Prod'
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: terraform-qa  # Runs after QA completes
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Terraform Environment Variables
+        run: |
+          echo "${{ secrets.AZURE_AD_SECRETS }}" | jq -r 'to_entries | .[] | "ARM_\(.key | ascii_upcase)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Run TFLint
+        uses: terraform-linters/setup-tflint@v3
+      - run: |
+          cd prod
+          tflint --init
+          tflint --recursive
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: prod
+
+      - name: Terraform Init
+        run: |
+          cd prod
+          terraform init
+
+      - name: Terraform Validate
+        run: |
+          cd prod
+          terraform validate
+
+      - name: Terraform Plan
+        run: |
+          cd prod
+          terraform plan -var-file="terraform.tfvars" -input=false
+
+      - name: Manual Approval for Prod
+        uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Terraform Apply
+        run: |
+          cd prod
+          terraform apply -var-file="terraform.tfvars" -auto-approve -input=false
