@@ -55,25 +55,25 @@ jobs:
             
           
 
-      - name: Terraform Init
+      - name: Terraform Init (dev)
         run: |
           cd dev
           terraform init
           working-directory: dev
 
-      - name: Terraform Validate
+      - name: Terraform Validate (dev)
         run: |
           cd dev
           terraform validate
           working-directory: dev
 
-      - name: Terraform Plan
+      - name: Terraform Plan (dev)
         run: |
           cd dev
           terraform plan -var-file="terraform.tfvars" -input=false
           working-directory: dev
 
-      - name: Terraform Apply
+      - name: Terraform Apply (dev)
         run: |
           cd dev
           terraform apply -var-file="terraform.tfvars" -auto-approve -input=false
@@ -113,19 +113,19 @@ jobs:
 
           directory: qa
 
-      - name: Terraform Init
+      - name: Terraform Init (qa)
         run: |
           cd qa
           terraform init
           working-directory: qa
 
-      - name: Terraform Validate
+      - name: Terraform Validate (qa)
         run: |
           cd qa
           terraform validate
           working-directory: qa
 
-      - name: Terraform Plan
+      - name: Terraform Plan (qa)
         run: |
           cd qa
           terraform plan -var-file="terraform.tfvars" -input=false
@@ -136,7 +136,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Terraform Apply
+      - name: Terraform Apply (qa)
         run: |
           cd qa
           terraform apply -var-file="terraform.tfvars" -auto-approve -input=false
@@ -176,19 +176,19 @@ jobs:
 
           directory: prod
 
-      - name: Terraform Init
+      - name: Terraform Init (prod)
         run: |
           cd prod
           terraform init
           working-directory: prod
 
-      - name: Terraform Validate
+      - name: Terraform Validate (prod)
         run: |
           cd prod
           terraform validate
           working-directory: prod
 
-      - name: Terraform Plan
+      - name: Terraform Plan (prod)
         run: |
           cd prod
           terraform plan -var-file="terraform.tfvars" -input=false
@@ -200,7 +200,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Terraform Apply
+      - name: Terraform Apply (prod)
         run: |
           cd prod
           terraform apply -var-file="terraform.tfvars" -auto-approve -input=false
