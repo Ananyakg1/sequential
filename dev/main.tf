@@ -1,4 +1,6 @@
 terraform {
+  required_version = ">= 1.0.0"  # ✅ Fix for TFLint warning
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -6,6 +8,7 @@ terraform {
     }
   }
 }
+
 
 provider "azurerm" {
   features {}
