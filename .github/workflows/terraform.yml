@@ -105,11 +105,12 @@ jobs:
           tflint --init
           tflint --recursive
 
-      - name: Run Checkov Security Scan
-        run: |
-          checkov -d . || true  # Forces Checkov to always return success
+      - name: Install Checkov
+        run: pip install checkov
 
-          directory: qa
+      - name: Run Checkov Security Scan
+        run: checkov -d . || true
+
 
       - name: Terraform Init (qa)
         working-directory: qa
