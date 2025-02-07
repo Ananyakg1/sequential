@@ -26,13 +26,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_AD_SECRETS }}
 
+
       - name: Set Terraform Environment Variables
         run: |
-          echo "${{ secrets.AZURE_AD_SECRETS }}" > azure_creds.json
-          echo "ARM_CLIENT_ID=$(jq -r .client_id azure_creds.json)" >> $GITHUB_ENV
-          echo "ARM_CLIENT_SECRET=$(jq -r .client_secret azure_creds.json)" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=$(jq -r .subscription_id azure_creds.json)" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=$(jq -r .tenant_id azure_creds.json)" >> $GITHUB_ENV
+         echo '${{ secrets.AZURE_AD_SECRETS }}' > azure_creds.json
+         echo "ARM_CLIENT_ID=$(jq -r .clientId azure_creds.json)" >> $GITHUB_ENV
+         echo "ARM_CLIENT_SECRET=$(jq -r .clientSecret azure_creds.json)" >> $GITHUB_ENV
+         echo "ARM_SUBSCRIPTION_ID=$(jq -r .subscriptionId azure_creds.json)" >> $GITHUB_ENV
+         echo "ARM_TENANT_ID=$(jq -r .tenantId azure_creds.json)" >> $GITHUB_ENV
+
 
 
       - name: Setup Terraform
