@@ -1,5 +1,5 @@
-resource_group_name  = "devresourcegroup12"
+resource_group_name  = "devresourcegroupkit"
 location            = "East US"
-storage_account_name = "devstorageaccount12"
-container_name       = "devcontainer12"
+storage_account_name = "devstorageaccountkit"
+container_name       = "devcontainerkit"
 
