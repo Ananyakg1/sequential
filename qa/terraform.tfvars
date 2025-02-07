@@ -1,7 +1,7 @@
-subscription_id = "AZURE_AD_SECRETS"  # Replace with actual ID
+subscription_id = "AZURE_SUBSCRIPTION_ID"  # Replace with actual ID
 
-resource_group_name  = "qaresourcegroup11"
+resource_group_name  = "qaresourcegroupkit"
 location            = "East US"
-storage_account_name = "qastorageaccount11"
-container_name       = "qacontainer11"
+storage_account_name = "qastorageaccountkit"
+container_name       = "qacontainerkit"
 
