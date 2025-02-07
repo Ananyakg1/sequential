@@ -21,6 +21,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_AD_SECRETS }}
+
       - name: Set Terraform Environment Variables
         run: |
           echo "${{ secrets.AZURE_AD_SECRETS }}" > azure_creds.json
