@@ -1,5 +1,5 @@
-resource_group_name  = "devresourcegroupmoree"
+resource_group_name  = "devresourcegroupmoreee"
 location            = "East US"
-storage_account_name = "devstorageaccountmoree"
-container_name       = "devcontainermoree"
+storage_account_name = "devstorageaccountmoreee"
+container_name       = "devcontainermoreee"
 
