@@ -88,8 +88,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: qa
     needs: terraform-dev  # Runs after dev completes
-    if: github.event_name == 'pull_request'
-
+    if: always()
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -149,7 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     needs: terraform-qa  # Runs after QA completes
-    if: github.event_name == 'pull_request'  # Runs only on PR
+    if: always()  # Runs only on PR
 
     steps:
       - name: Checkout Repository
