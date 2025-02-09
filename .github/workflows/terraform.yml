@@ -135,10 +135,7 @@ jobs:
         run: terraform plan -var-file="terraform.tfvars" -input=false
           
 
-      - name: Manual Approval for QA
-        uses: hmarr/auto-approve-action@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      
 
       - name: Terraform Apply (qa)
         working-directory: qa
@@ -188,10 +185,7 @@ jobs:
         working-directory: prod
         run: terraform plan -var-file="terraform.tfvars" -input=false
           
-      - name: Manual Approval for Prod
-        uses: hmarr/auto-approve-action@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      
 
       - name: Terraform Apply (prod)
         working-directory: prod
