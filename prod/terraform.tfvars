@@ -1,4 +1,4 @@
-resource_group_name  = "prodresourcegroupmore"
+resource_group_name  = "prodresourcegroupmoree"
 location            = "East US"
-storage_account_name = "prodstorageaccountmore"
-container_name       = "prodcontainermore"
+storage_account_name = "prodstorageaccountmoree"
+container_name       = "prodcontainermoree"
